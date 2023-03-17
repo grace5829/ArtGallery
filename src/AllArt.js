@@ -1,4 +1,4 @@
-import "./App.css";
+import "./AllArt.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import NavBar from "./NavBar";
@@ -15,10 +15,12 @@ import { Link } from "react-router-dom";
 import useStyles from "./style";
 import { v4 } from "uuid";
 import SingleArt from "./SingleArt";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const AllArt = () => {
   const [artWork, setArtWork] = useState([]);
   const [imageTriggerPopup, setImageTriggerPopup] = useState({0:false, 1:false,2:false,3:false, 4:false,5:false,6:false, 7:false,8:false,9:false,10:false, 11:false});
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [apiLink, setApiLink] = useState("");
   const { classes } = useStyles();
 
@@ -50,10 +52,29 @@ const triggerPopup = (num) => {
     imageTriggerPopup[num] === false
       ? setImageTriggerPopup((prev) => ({ ...prev, [num]: true }))
       : setImageTriggerPopup((prev) => ({ ...prev, [num]: false }));
-      console.log(num)
+    //   console.log(num)
+  };
+  const previousPopup = (name, card) => {
+    let previous = artWork.indexOf(card) - 1
 
+    triggerPopup(name);
+    if (previous>0) {
+      triggerPopup(previous);
+    } else {
+      triggerPopup(11);
+    }
   };
 
+  const nextPopup = (name, card) => {
+    let next = artWork.indexOf(card) + 1
+console.log(next)
+    triggerPopup(name);
+    if (next<12) {
+      triggerPopup(next);
+    } else {
+      triggerPopup(0);
+    }
+  };
   return (
     <div>
       <Container className={classes.container} maxWidth="md">
@@ -78,8 +99,14 @@ const triggerPopup = (num) => {
                     info={card}
                     imageLink={`${apiLink}/${card["image_id"]}/full/843,/0/default.jpg`}
                       >
-                        {/* <div>it works!</div> */}
-                        <button onClick={()=>triggerPopup(artWork.indexOf(card))}>close</button>
+                        <ArrowBackIosNewIcon
+                          className="arrow"
+                          onClick={() => previousPopup(artWork.indexOf(card), card)}
+                        />
+                        <ArrowForwardIosIcon
+                          className="arrow"
+                          onClick={() => nextPopup(artWork.indexOf(card), card)}
+                        />                        <button onClick={()=>triggerPopup(artWork.indexOf(card))}>close</button>
                       </SingleArt>
                   </Typography>
                   <Typography>
@@ -93,10 +120,12 @@ const triggerPopup = (num) => {
           ))}
         </Grid>
       </Container>
+      <div className="bottomViewAll">
 <div onClick={()=>turnPage(-1)}> previous </div>
-<div> {page}</div>
+<div id="page"> {page}</div>
 <div onClick={()=>turnPage(1)}> next </div>
     </div>
+      </div>
   );
 };
 

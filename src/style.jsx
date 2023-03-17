@@ -3,7 +3,7 @@ import { makeStyles } from "tss-react/mui";
 const useStyles = makeStyles()((theme) => {
   return {
     container: {
-      backgroundColor: "#f5a3e6",
+      backgroundColor: "#325054",
       padding: theme.spacing(4, 0, 2),
     },
     cardMedia: {

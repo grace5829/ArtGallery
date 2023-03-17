@@ -4,7 +4,7 @@ import './popup.css';
 
 const SingleArt = (props) => {
     const {info,imageLink}= props
-    console.log(info)
+    // console.log(info)
 
     return (props.trigger )? (
         <div className="popup">
